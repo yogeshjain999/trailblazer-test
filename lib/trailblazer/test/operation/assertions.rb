@@ -1,16 +1,18 @@
+require "deep_merge"
+
 module Trailblazer::Test::Operation
   module Assertions
     # @needs params_pass
     # @needs attributes_pass
-    def assert_pass(operation_class, params, expected_attributes, default_params: params_pass, default_attributes: attrs_pass, &block)
-      input_params        = default_params.merge(params)
-      expected_attributes = default_attributes.merge(expected_attributes)
+    def assert_pass(operation_class, params, expected_attributes, default_params: params_pass, default_attributes: attrs_pass, deep_merge: true, &block)
+      input_params        = merge(default_params, params, deep_merge)
+      expected_attributes = merge(default_attributes, expected_attributes, deep_merge)
 
       assert_pass_with_model(operation_class, input_params, expected_model_attributes: expected_attributes, &block)
     end
 
-    def assert_fail(operation_class, params, expected_errors, default_params: params_pass, default_attributes: {}, &block)
-      input_params = default_params.merge(params)
+    def assert_fail(operation_class, params, expected_errors, default_params: params_pass, default_attributes: {}, deep_merge: true, &block)
+      input_params = merge(default_params, params, deep_merge)
       # expected_attributes = default_attributes.merge( expected_attributes )
 
       # assert_fails_with_model(operation_class, input_params, expected_model_attributes: expected_attributes, &block)
@@ -50,6 +52,14 @@ module Trailblazer::Test::Operation
       yield(result)
 
       result
+    end
+
+    # @private
+    def merge(dest, source, deep_merge)
+      return dest.merge(source) unless deep_merge
+
+      # option merge_nil_values to override keys with nil
+      dest.deep_merge!(source, merge_nil_values: true)
     end
   end
 end
