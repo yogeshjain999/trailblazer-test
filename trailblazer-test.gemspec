@@ -26,4 +26,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "simplecov"
+
+  spec.add_dependency "trailblazer-activity", ">= 0.10.0"
+  spec.add_dependency "trailblazer-activity-dsl-linear", ">= 0.2.5"
+
+  spec.add_development_dependency "trailblazer-developer", ">= 0.0.8"
 end

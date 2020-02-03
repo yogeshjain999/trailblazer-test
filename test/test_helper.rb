@@ -10,6 +10,14 @@ require "trailblazer/test"
 
 require "minitest/autorun"
 
+require "trailblazer/activity/dsl/linear"
+require "trailblazer/activity/testing"
+require "trailblazer/developer"
+
+Activity  = Trailblazer::Activity
+Testing   = Trailblazer::Activity::Testing
+Dev       = Trailblazer::Developer
+
 Minitest::Spec.class_eval do
   include Trailblazer::Test::Assertions
   include Trailblazer::Test::Operation::Assertions
